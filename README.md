@@ -92,7 +92,7 @@ Tugas-Sitta-Vue/
 
 
 
-## Watcher (kriteria 1.5) — upgrade
+## Watcher (kriteria 1.5)
 
 ### Halaman Stok
 1. **`filterUpbjj`** — reset kategori dependent + toast + log  
@@ -141,4 +141,3 @@ Tidak perlu build tool — Vue 2 dari CDN.
 ---
 
 © 2026 — Tugas Praktik 2 STSI4209 | SITTA Universitas Terbuka  
-Komponen dari Tugas-Sitta3 dipertahankan sesuai permintaan.
