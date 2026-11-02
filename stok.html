@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Informasi Stok Bahan Ajar SITTA — Vue.js Component (Tugas Praktik 2 (komponen dipertahankan))">
+  <title>Informasi Stok Bahan Ajar | SITTA</title>
+  <link rel="shortcut icon" href="assets/logo-ut.png"/>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <app-navbar active="stok"></app-navbar>
+
+    <main class="page-content">
+      <div class="container">
+        <h1 class="section-title">📚 Informasi Stok Bahan Ajar</h1>
+        <p class="text-muted mb-1">
+          Kelola stok bahan ajar seluruh UPBJJ di SITTA. Gunakan filter untuk menampilkan bahan ajar tertentu, atau klik tombol Tambah Bahan Ajar untuk menambahkan data baru.
+        </p>
+
+        <stock-summary
+          :total-item="totalItem"
+          :total-qty="totalQty"
+          :jumlah-menipis="jumlahMenipis"
+          :jumlah-kosong="jumlahKosong">
+        </stock-summary>
+
+        <stock-filters
+          :upbjj-list="upbjjList"
+          :kategori-options="kategoriOptions"
+          :filter-upbjj="filterUpbjj"
+          :filter-kategori="filterKategori"
+          :filter-low-stock="filterLowStock"
+          :sort-by="sortBy"
+          :view-mode="viewMode"
+          :result-count="filteredStok.length"
+          @change-upbjj="filterUpbjj = $event"
+          @change-kategori="filterKategori = $event"
+          @change-lowstock="filterLowStock = $event"
+          @change-sort="sortBy = $event"
+          @change-view="viewMode = $event"
+          @reset="resetFilter">
+        </stock-filters>
+
+        <div class="toolbar-row">
+          <button type="button" class="btn btn-orange btn-sm" @click="bukaTambah" v-if="!formMode">
+            ＋ Tambah Bahan Ajar
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" @click="tutupForm" v-else>
+            Tutup Form
+          </button>
+        </div>
+
+        <stock-form
+          :form-mode="formMode"
+          :form="form"
+          :form-error="formError"
+          :kategori-list="kategoriList"
+          :upbjj-list="upbjjList"
+          :judul-form="judulForm"
+          @submit="simpanForm"
+          @cancel="tutupForm">
+        </stock-form>
+
+        <stock-table
+          :items="filteredStok"
+          :view-mode="viewMode"
+          :has-filter="hasActiveFilter"
+          @edit="bukaEdit"
+          @delete="hapusItem">
+        </stock-table>
+
+        <!-- Panel log watcher (demo kriteria 1.5) -->
+        <div class="card mb-1 watcher-panel" v-if="watcherLog.length">
+          <div class="card-header">
+            Terakhir dilihat
+            <small class="text-muted" v-if="lastWatcherAt">· {{ lastWatcherAt }}</small>
+          </div>
+          <div class="card-body">
+            <ul class="watcher-list">
+              <li v-for="(log, i) in watcherLog" :key="i">
+                <span class="watcher-time">{{ log.waktu }}</span>
+                <span class="watcher-action">{{ log.pesan }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+    <p>&copy; 2026 SITTA – Universitas Terbuka</p>
+      </div>
+    </footer>
+
+    <app-toast :show="showToast" :message="toastMsg" :type="toastType"></app-toast>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/components/app-navbar.js"></script>
+  <script src="js/components/app-toast.js"></script>
+  <script src="js/components/stock-summary.js"></script>
+  <script src="js/components/stock-filters.js"></script>
+  <script src="js/components/stock-form.js"></script>
+  <script src="js/components/stock-table.js"></script>
+  <script src="js/stok-app.js"></script>
+</body>
+</html>

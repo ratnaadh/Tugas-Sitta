@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Halaman Login SITTA - Sistem Informasi Tiras dan Transaksi Bahan Ajar Universitas Terbuka">
+  <title>Login | SITTA Universitas Terbuka</title>
+    <link rel="shortcut icon" href="assets/logo-ut.png"/>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Font Awesome 6 (untuk ikon mata password) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <!-- Internal CSS (demonstrasi kriteria inline/internal/external) -->
+  <style>
+    .login-card .form-group label::after {
+      content: " *";
+      color: #ef4444;
+    }
+    .password-toggle {
+      position: relative;
+    }
+    .password-toggle .form-control {
+      padding-right: 2.85rem;
+    }
+    .password-toggle .toggle-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #6b7280;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .password-toggle .toggle-btn:hover {
+      color: #003366;
+      background: rgba(0, 51, 102, 0.08);
+    }
+    .password-toggle .toggle-btn:focus {
+      outline: 2px solid #003366;
+      outline-offset: 1px;
+    }
+  </style>
+</head>
+<body>
+  <main class="login-page">
+    <article class="login-card">
+      <header class="login-header">
+          <img src="assets/LOGO-WHITE.png" alt="Logo Universitas Terbuka" width="60" height="50">
+        </div>
+        <h1>SITTA</h1>
+        <p>Sistem Informasi Tiras &amp; Transaksi Bahan Ajar</p>
+      </header>
+
+      <div class="login-body">
+        <form id="formLogin" novalidate>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              placeholder="Masukkan email"
+              autocomplete="username"
+              required
+            >
+            <div class="invalid-feedback">Email wajib diisi</div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-toggle">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Masukkan password"
+                autocomplete="current-password"
+                required
+              >
+              <button type="button" class="toggle-btn" id="btnTogglePassword" aria-label="Tampilkan password">
+                <i class="fa-sharp fa-solid fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="invalid-feedback">Password wajib diisi</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="btnLogin">
+            Login
+          </button>
+        </form>
+
+        <div class="login-footer-links">
+          <a href="#" id="btnLupaPassword">Lupa Password?</a>
+          <a href="#" id="btnDaftar">Daftar</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Modal Lupa Password -->
+  <div class="modal-overlay" id="modalLupaPassword" role="dialog" aria-modal="true" aria-labelledby="judulLupa">
+    <div class="modal">
+      <header class="modal-header">
+        <h3 id="judulLupa">Lupa Password</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Tutup">&times;</button>
+      </header>
+      <div class="modal-body">
+        <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+          Masukkan email terdaftar untuk menerima tautan reset password. Pastikan email yang dimasukkan sudah benar dan aktif.
+        </p>
+        <div class="form-group">
+          <label for="emailLupa">Email</label>
+          <input type="email" id="emailLupa" class="form-control" placeholder="Masukkan email terdaftar" required>
+        </div>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" data-close-modal>Batal</button>
+        <button type="button" class="btn btn-primary btn-sm" id="btnKirimReset">Kirim Tautan</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal Daftar -->
+  <div class="modal-overlay" id="modalDaftar" role="dialog" aria-modal="true" aria-labelledby="judulDaftar">
+    <div class="modal">
+      <header class="modal-header">
+        <h3 id="judulDaftar">Daftar Akun Baru</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Tutup">&times;</button>
+      </header>
+      <div class="modal-body">
+        <form id="formDaftar">
+          <div class="form-group">
+            <label for="namaDaftar">Nama Lengkap</label>
+            <input type="text" id="namaDaftar" class="form-control" placeholder="Masukkan nama lengkap" required>
+          </div>
+          <div class="form-group">
+            <label for="emailDaftar">Email</label>
+            <input type="email" id="emailDaftar" class="form-control" placeholder="Masukkan email" required>
+          </div>
+          <div class="form-group">
+            <label for="passwordDaftar">Password</label>
+            <input type="password" id="passwordDaftar" class="form-control" placeholder="Masukkan password" required>
+          </div>
+          <div class="form-group">
+            <label for="konfirmasiPassword">Konfirmasi Password</label>
+            <input type="password" id="konfirmasiPassword" class="form-control" placeholder="Masukkan kembali password" required>
+          </div>
+        </form>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" data-close-modal>Batal</button>
+        <button type="button" class="btn btn-orange btn-sm" id="btnSubmitDaftar">Daftar</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

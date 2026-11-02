@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard SITTA - Menu utama aplikasi pemesanan bahan ajar Universitas Terbuka">
+  <title>Dashboard | SITTA Universitas Terbuka</title>
+  <link rel="shortcut icon" href="assets/logo-ut.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Internal CSS tambahan untuk dashboard */
+    .user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+    }
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .stat-card .angka {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #003366;
+    }
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Menu utama">
+    <div class="container">
+      <a href="dashboard.html" class="navbar-brand">
+        <img src="assets/LOGO-WHITE.png" alt="Logo UT" width="55" height="40">
+        <span>SITTA</span>UNIVERSITAS TERBUKA
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link active">Beranda</a></li>
+        <li><a href="stok.html" class="nav-link">Informasi Bahan Ajar</a></li>
+        <li><a href="tracking.html" class="nav-link">Tracking Pengiriman</a></li>
+        <li class="dropdown">
+          <a href="#" class="nav-link" id="btnLaporan">Laporan ▾</a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" class="dropdown-item" data-fitur="monitoring">Monitoring Progress DO</a></li>
+            <li><a href="#" class="dropdown-item" data-fitur="rekap">Rekap Bahan Ajar</a></li>
+          </ul>
+        </li>
+        <li><a href="#" class="nav-link" id="btnHistori">Histori Transaksi</a></li>
+        <li>
+          <span class="user-chip" id="userChip">
+            <span id="userName">User</span>
+          </span>
+        </li>
+        <li><a href="#" class="nav-link" id="btnLogout" title="Keluar">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page-content">
+    <div class="container">
+      <!-- Greeting dinamis berdasarkan waktu lokal -->
+      <section class="greeting-box" aria-live="polite">
+        <div>
+          <h2 id="greetingText">Selamat datang!</h2>
+          <p class="time-info" id="timeInfo"></p>
+        </div>
+        <div>
+          <span class="status-badge proses" id="roleBadge">Operator UT-Daerah</span>
+        </div>
+      </section>
+
+      <!-- Statistik ringkas (kreativitas) -->
+      <section class="stat-row" aria-label="Ringkasan statistik">
+        <div class="stat-card">
+          <div class="angka" id="statStok">4</div>
+          <div class="label">Jenis Bahan Ajar</div>
+        </div>
+        <div class="stat-card">
+          <div class="angka" id="statDO">1</div>
+          <div class="label">Delivery Order</div>
+        </div>
+        <div class="stat-card">
+          <div class="angka" style="color:#10b981">2</div>
+          <div class="label">Terkirim</div>
+        </div>
+        <div class="stat-card">
+          <div class="angka" style="color:#f59e0b">2</div>
+          <div class="label">Dalam Proses</div>
+        </div>
+      </section>
+
+      <!-- Menu navigasi utama -->
+      <h2 class="section-title">Menu Utama</h2>
+      <div class="menu-grid">
+        <a href="stok.html" class="menu-card">
+          <div class="icon">📚</div>
+          <h3>Informasi Bahan Ajar</h3>
+          <p>Lihat stok dan kelola data bahan ajar secara dinamis</p>
+        </a>
+        <a href="tracking.html" class="menu-card">
+          <div class="icon">🚚</div>
+          <h3>Tracking Pengiriman</h3>
+          <p>Lacak status pengiriman bahan ajar</p>
+        </a>
+        <a href="#" class="menu-card" data-fitur="monitoring">
+          <div class="icon">📊</div>
+          <h3>Monitoring Progress DO</h3>
+          <p>Pantau progres pengiriman Delivery Order</p>
+        </a>
+        <a href="#" class="menu-card" data-fitur="rekap">
+          <div class="icon">📋</div>
+          <h3>Rekap Bahan Ajar</h3>
+          <p>Rekapitulasi data bahan ajar</p>
+        </a>
+        <a href="#" class="menu-card" id="cardHistori">
+          <div class="icon">🕐</div>
+          <h3>Histori Transaksi</h3>
+          <p>Riwayat aktivitas pengiriman bahan ajar</p>
+        </a>
+      </div>
+
+      <!-- Area konten dinamis untuk fitur tambahan (modal-like section) -->
+      <section id="kontenDinamis" class="card" style="display:none; margin-top:1.5rem;">
+        <div class="card-header" id="kontenJudul">Judul</div>
+        <div class="card-body" id="kontenBody"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 SITTA – Universitas Terbuka</p>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

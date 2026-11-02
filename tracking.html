@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tracking Pengiriman Bahan Ajar SITTA — Vue.js Component (Tugas Praktik 2 (komponen dipertahankan))">
+  <title>Tracking Pengiriman | SITTA</title>
+  <link rel="shortcut icon" href="assets/logo-ut.png"/>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <app-navbar active="tracking"></app-navbar>
+
+    <main class="page-content">
+      <div class="container">
+        <h1 class="section-title">📦 Tracking Pengiriman</h1>
+        <p class="text-muted mb-1">
+          Lacak Delivery Order bahan ajar mahasiswa SITTA. Masukkan nomor DO yang valid, lalu klik tombol Cari.
+        </p>
+
+        <div class="card mb-1" v-if="daftarNomorDO.length">
+          <div class="card-header">Daftar DO Tersedia</div>
+          <div class="card-body do-chips">
+            <button type="button"
+                    class="chip"
+                    v-for="(nomor, idx) in daftarNomorDO"
+                    :key="nomor"
+                    @click="keyword = nomor; cariDO()">
+              <span v-text="idx + 1"></span>. {{ nomor | uppercase }}
+            </button>
+          </div>
+        </div>
+
+        <tracking-search
+          :keyword="keyword"
+          @change-keyword="keyword = $event"
+          @search="cariDO">
+        </tracking-search>
+
+        <div class="toolbar-row">
+          <button type="button" class="btn btn-orange btn-sm" @click="bukaFormDO" v-if="!showFormDO">
+            ＋ Buat DO Baru
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" @click="tutupFormDO" v-else>
+            Tutup Form
+          </button>
+        </div>
+
+        <tracking-form
+          :show="showFormDO"
+          :form="formDO"
+          :errors="formDOError"
+          :paket-list="paketList"
+          :pengiriman-list="pengirimanList"
+          :selected-paket="selectedPaket"
+          :selected-ekspedisi="selectedEkspedisi"
+          :ongkir="ongkir"
+          :total-harga="totalHarga"
+          :next-nomor-do="nextNomorDO"
+          :get-judul-mk="getJudulMk"
+          @submit="tambahDO"
+          @cancel="tutupFormDO">
+        </tracking-form>
+
+        <tracking-result
+          :hasil="hasil"
+          :not-found="notFound"
+          :sudah-cari="sudahCari"
+          :progress-persen="progressPersen"
+          :get-nama-paket="getNamaPaket">
+        </tracking-result>
+
+        <!-- Watcher -->
+        <div class="card mb-1 watcher-panel" v-if="watcherLog.length">
+          <div class="card-header">
+            Terakhir dilihat
+            <small class="text-muted" v-if="lastWatcherAt">· {{ lastWatcherAt }}</small>
+          </div>
+          <div class="card-body">
+            <ul class="watcher-list">
+              <li v-for="(log, i) in watcherLog" :key="i">
+                <span class="watcher-time">{{ log.waktu }}</span>
+                <span class="watcher-action">{{ log.pesan }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+    <p>&copy; 2026 SITTA – Universitas Terbuka</p>
+      </div>
+    </footer>
+
+    <app-toast :show="showToast" :message="toastMsg" :type="toastType"></app-toast>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/components/app-navbar.js"></script>
+  <script src="js/components/app-toast.js"></script>
+  <script src="js/components/tracking-search.js"></script>
+  <script src="js/components/tracking-form.js"></script>
+  <script src="js/components/tracking-result.js"></script>
+  <script src="js/tracking-app.js"></script>
+</body>
+</html>
